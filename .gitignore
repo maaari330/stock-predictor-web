@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Python 仮想環境
+venv/
+
+# Node / Next.js
+node_modules/
+.next/
+dist/
+build/
+
+# フロント側のビルド成果物（必要に応じて）
+stock-frontend/node_modules/
+stock-frontend/.next/
+stock-frontend/dist/
+stock-frontend/build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
