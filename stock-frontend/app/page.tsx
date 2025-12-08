@@ -54,7 +54,7 @@ export default function Home() {
       </form>
       {PredictionLabel && 
         <div>
-          <p>明日の株価予測：{PredictionLabel}</p>
+          <p style={{color: PredictionLabel=="UP"?"green":"red",fontWeight:"bold"}}>明日の株価予測：{PredictionLabel}</p>
           <p>予測精度：{Confidence*100}%</p>
         </div>
       }
