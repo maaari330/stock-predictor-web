@@ -2,8 +2,20 @@ from pydantic import BaseModel,Field
 from fastapi import FastAPI
 import pickle
 import numpy as np
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origin=['http://localhost:3000']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origin,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class PredictionData(BaseModel):
     Return: float
@@ -25,6 +37,7 @@ async def root():
 
 @app.post('/predict',response_model=PredictionResponse)
 async def predict(data:PredictionData):
+    print(data)
     ary=np.array([[data.Return,data.Volatility,data.Volume_change,data.Roll_5,data.Roll_10,data.MA_Ratio]])
     with open('model2.pkl',mode='rb') as f:
         model2=pickle.load(f)

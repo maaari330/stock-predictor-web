@@ -8,12 +8,25 @@ export default function Home() {
   const [Roll_5,setRoll_5]=useState(0)
   const [Roll_10,setRoll_10]=useState(0)
   const [MA_Ratio,setMA_Ratio]=useState(0)
+  const [PredictionLabel,setPredictionLabel]=useState()
+  const [Confidence,setConfidence]=useState(0)
 
-  function handleSubmit(e){
-    e.preventDefault()
-    post('/predict',{Return:Return,Volatility:Volatility,Volume_change:Volume_change,Roll_5:Roll_5,Roll_10,Roll_10})
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault();
+    const res=await fetch('http://localhost:8000/predict',{method:'POST',headers: {'Content-Type': 'application/json'},body:JSON.stringify({Return:Return,Volatility:Volatility,Volume_change:Volume_change,Roll_5:Roll_5,Roll_10:Roll_10,MA_Ratio:MA_Ratio})})
+    const resBody= await res.json()
+    setPredictionLabel(resBody.PredictionLabel)
+    setConfidence(resBody.Confidence)
+    return (
+      {PredictionLabel && 
+        <div>
+          <p>明日の株価予測：</p>
+          <p>予測精度：</p>
+        </div>
+      }
+    );
   }
-
 
   return (
     <>
