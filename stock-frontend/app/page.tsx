@@ -18,14 +18,6 @@ export default function Home() {
     const resBody= await res.json()
     setPredictionLabel(resBody.PredictionLabel)
     setConfidence(resBody.Confidence)
-    return (
-      {PredictionLabel && 
-        <div>
-          <p>明日の株価予測：</p>
-          <p>予測精度：</p>
-        </div>
-      }
-    );
   }
 
   return (
@@ -60,6 +52,12 @@ export default function Home() {
         </label>
         <button type="submit">株価予測</button>
       </form>
+      {PredictionLabel && 
+        <div>
+          <p>明日の株価予測：{PredictionLabel}</p>
+          <p>予測精度：{Confidence*100}%</p>
+        </div>
+      }
     </>
   );
 }
