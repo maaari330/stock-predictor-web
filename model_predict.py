@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 
 
-def predict(ticker:str,period='5y'):
+def calc(ticker:str,period='5y'):
     df=yf.download(ticker, period='5y', auto_adjust=True)
     # 特徴量
     df['Return']=df['Close'].pct_change() # 前日からの変化率

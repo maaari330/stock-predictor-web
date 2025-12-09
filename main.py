@@ -3,7 +3,7 @@ from fastapi import FastAPI
 import pickle
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
-from model_predict.py import predict
+import model_predict
 
 app = FastAPI()
 
@@ -34,7 +34,7 @@ async def root():
 @app.post('/predict',response_model=PredictionResponse)
 async def predict(data:PredictionData):
     print(data)
-    predict(data.Ticker)
+    model_predict.calc(data.Ticker)
     return PredictionResponse(
         Prediction=model2.predict(ary)[0],
         PredictionLabel= 'UP' if model2.predict(ary)[0]==1 else 'Down',
