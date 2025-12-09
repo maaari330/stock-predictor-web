@@ -3,6 +3,7 @@ from fastapi import FastAPI
 import pickle
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
+from model_predict.py import predict
 
 app = FastAPI()
 
@@ -18,12 +19,7 @@ app.add_middleware(
 
 
 class PredictionData(BaseModel):
-    Return: float
-    Volatility: float
-    Volume_change: float
-    Roll_5: float
-    Roll_10: float
-    MA_Ratio: float
+    Ticker: str
 
 class PredictionResponse(BaseModel):
     Prediction: int=Field(ge=0,le=1)
@@ -38,9 +34,7 @@ async def root():
 @app.post('/predict',response_model=PredictionResponse)
 async def predict(data:PredictionData):
     print(data)
-    ary=np.array([[data.Return,data.Volatility,data.Volume_change,data.Roll_5,data.Roll_10,data.MA_Ratio]])
-    with open('model2.pkl',mode='rb') as f:
-        model2=pickle.load(f)
+    predict(data.Ticker)
     return PredictionResponse(
         Prediction=model2.predict(ary)[0],
         PredictionLabel= 'UP' if model2.predict(ary)[0]==1 else 'Down',
