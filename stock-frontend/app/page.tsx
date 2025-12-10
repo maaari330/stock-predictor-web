@@ -5,13 +5,13 @@ import { BsGraphDownArrow } from "react-icons/bs";
 
 export default function Home() {
   const [Ticker,setTicker]=useState("")
+  const [Days,setDays]=useState("")
   const [PredictionLabel,setPredictionLabel]=useState("")
   const [Confidence,setConfidence]=useState(0)
 
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
-    const res=await fetch('http://localhost:8000/predict',{method:'POST',headers: {'Content-Type': 'application/json'},body:JSON.stringify({Ticker:Ticker})})
+    const res=await fetch('http://localhost:8000/predict',{method:'POST',headers: {'Content-Type': 'application/json'},body:JSON.stringify({Ticker:Ticker,Days:Number(Days)})})
     const resBody= await res.json()
     setPredictionLabel(resBody.PredictionLabel)
     setConfidence(resBody.Confidence)
@@ -27,6 +27,10 @@ export default function Home() {
           銘柄コード/Ticker:
           <input type="text" name="ticker" value={Ticker} onChange={e => setTicker(e.target.value)}/>
         </label>
+        <label>
+          日数: 
+          <input type="text" name="days" value={Days} onChange={e => setDays(e.target.value)}/>
+        </label>
         <button type="submit">株価予測</button>
       </form>
       {PredictionLabel && 
@@ -36,7 +40,7 @@ export default function Home() {
           ):(
             <p className={"font-semibold text-red-300"}>明日の株価予測：{PredictionLabel}<BsGraphDownArrow/></p>
           )}
-          <p>予測精度：{Confidence*100}%</p>
+          <p>予測精度：{Math.round(Confidence*100)}%</p>
           <progress value={Confidence*100} max={100} />
         </div>
       }

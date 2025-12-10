@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 
 def train_model(ticker:str,period='5y'):
     # データ取得
-    df=yf.download(ticker, period, auto_adjust=True)
+    df=yf.download(ticker, period=period, auto_adjust=True)
 
     # 特徴量
     df['Return']=df['Close'].pct_change() # 前日からの変化率
@@ -52,6 +52,8 @@ def train_model(ticker:str,period='5y'):
     print('Logistic Regression Test score:',model2.score(X_test,y_test))
 
     # モデル保存
+    with open('scaler.pkl',mode='wb') as f:
+        pickle.dump(sc,f)
     with open('model.pkl',mode='wb') as f:
         pickle.dump(model,f)
     with open('model2.pkl',mode='wb') as f:

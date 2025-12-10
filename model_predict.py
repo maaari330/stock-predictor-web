@@ -1,12 +1,10 @@
 import yfinance as yf
 import pandas as pd
 import pickle
-from sklearn.preprocessing import StandardScaler
-
 
 def model_predict(ticker:str,period='60d'):
     # データ取得
-    df=yf.download(ticker, period, auto_adjust=True)
+    df=yf.download(ticker, period=period, auto_adjust=True)
 
     # 特徴量
     df['Return']=df['Close'].pct_change() # 前日からの変化率
@@ -21,13 +19,16 @@ def model_predict(ticker:str,period='60d'):
     print(df.columns)
     print(df.tail(5))
     df=df.dropna(axis=0)
-    x=df.loc[:,'Return':'MA_Ratio']
-    sc=StandardScaler()
-    sc_x=sc.fit_transform(x)
+    x=df.loc[:,'Return':'MA_Ratio'].tail(1)
+    print(x)
+    sc=pickle.load(open('scaler.pkl',mode='rb'))
+    sc_x=sc.transform(x)
 
     # モデルをロード
     model2=pickle.load(open('model2.pkl',mode='rb'))
-    model2.predict(sc_x)
-    confidence=model2.predict_proba(sc_x)
+    Prediction=int(model2.predict(sc_x)[0])
+    PredictionLabel='UP' if Prediction==1 else 'Down'
+    Confidence=float(max(model2.predict_proba(sc_x)[0]))
 
-
+    # 戻り値
+    return {'Prediction':Prediction,'PredictionLabel':PredictionLabel,'Confidence':Confidence}
