@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.page {
+  background-color: #f5f5f5;
+  max-width: 400px;
+  padding: 2rem;
+  margin: auto;
+  border-radius: 30px;
+  box-shadow: 10px 5px 5px gray;
+}
+
+.forms label {
+  display: flex;
+  flex-flow: column;
+}
+
+.forms input {}

@@ -5,6 +5,7 @@ __pycache__/
 
 # Python 仮想環境
 venv/
+.venv/
 
 # Node / Next.js
 node_modules/
