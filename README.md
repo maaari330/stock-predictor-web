@@ -13,16 +13,16 @@
 -Node.js v24.11.1で動作確認済み
 
 ## How to Setup
-###1. リポジトリのクローン
+1. リポジトリのクローン
    git clone https://github.com/maaari330/stock-predictor-web/
    cd stock-predictor-web
-###2. バックエンドのセットアップ
+2. バックエンドのセットアップ
    pip install  "fastapi[all]" sklearn pandas yfinance
-###3. フロントエンドのセットアップ
+3. フロントエンドのセットアップ
    cd stock-frontend
    npm install
    npm install react-icons --save　# React-icons
-###4. 起動
+4. 起動
    uvicorn main:app --reload　# バックエンド（fastAPI）
    npm run dev # フロント（別ターミナル）
 
