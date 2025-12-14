@@ -39,4 +39,28 @@ body {
   flex-flow: column;
 }
 
-.forms input {}
+.forms input {
+  border: solid 1.5px #808080;
+  border-radius: 5px;
+  padding: 0.1em;
+}
+
+.forms button {
+  padding: 0.7em;
+  border-radius: 5px;
+  border: 0px;
+  box-shadow: 0px 5px #808080;
+  background-color: #1e90ff;
+  color: white;
+}
+
+.forms button:hover {
+  background-color: #1fA3ff;
+}
+
+.forms button:active {
+  top: 5px;
+  position: relative;
+  background-color: #1fA3ff;
+  box-shadow: none;
+}
