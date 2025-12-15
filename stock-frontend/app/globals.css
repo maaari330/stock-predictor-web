@@ -74,10 +74,25 @@ body {
   background-color: #d1e8fa;
 }
 
-.result p{
-  display: flex;
-  margin-right: 10px;
+.result .res-letter{
+  margin-right: 3px;
   color: #171717;
+}
+
+span.res-res{
+  font-weight: bold;
+}
+
+span.res-res svg{
+  vertical-align: baseline;
+}
+
+.up{
+  color: green;
+}
+
+.down{
+  color: red;
 }
 
 .result progress{
@@ -85,7 +100,7 @@ body {
   border-radius: 15px;
 }
 
-::-webkit-progress-value {
+progress::-webkit-progress-value {
   background-color: #003399;
   border-radius: 15px;
 }

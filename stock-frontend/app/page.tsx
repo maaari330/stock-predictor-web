@@ -36,9 +36,9 @@ export default function Home() {
       {PredictionLabel &&
         <div className="result">
           {PredictionLabel == "UP" ? (
-            <p>明日の株価予測：{PredictionLabel}<BsGraphUpArrow /></p>
+            <p className="res-letter">明日の株価予測：<span className="res-res up">{PredictionLabel}<BsGraphUpArrow /></span></p>
           ) : (
-            <p>明日の株価予測：{PredictionLabel}<BsGraphDownArrow /></p>
+            <p className="res-letter">明日の株価予測：<span className="res-res down">{PredictionLabel}<BsGraphDownArrow /></span></p>
           )}
           <p>予測精度：{Math.round(Confidence * 100)}%</p>
           <progress value={Confidence * 100} max={100} />
