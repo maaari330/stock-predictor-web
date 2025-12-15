@@ -74,8 +74,18 @@ body {
   background-color: #d1e8fa;
 }
 
+.result p{
+  display: flex;
+  margin-right: 10px;
+  color: #171717;
+}
+
 .result progress{
   width: 100%;
-  background-color: blue;
+  border-radius: 15px;
+}
+
+::-webkit-progress-value {
+  background-color: #003399;
   border-radius: 15px;
 }
