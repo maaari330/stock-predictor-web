@@ -34,7 +34,7 @@ export default function Home() {
         <button type="submit">株価予測</button>
       </form>
       {PredictionLabel &&
-        <div className="w-md px-4 ml-2 mr-10 border-double border-sky-200">
+        <div className="result">
           {PredictionLabel == "UP" ? (
             <p className={"font-semibold text-green-300"}>明日の株価予測：{PredictionLabel}<BsGraphUpArrow /></p>
           ) : (

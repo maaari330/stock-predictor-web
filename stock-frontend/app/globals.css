@@ -40,13 +40,14 @@ body {
 }
 
 .forms input {
-  border: solid 1.5px #808080;
+  border: solid 1.5px #DDDDDD;
   border-radius: 5px;
   padding: 0.1em;
 }
 
 .forms button {
   padding: 0.7em;
+  margin-top:  1em;
   border-radius: 5px;
   border: 0px;
   box-shadow: 0px 5px #808080;
@@ -63,4 +64,18 @@ body {
   position: relative;
   background-color: #1fA3ff;
   box-shadow: none;
+}
+
+.result{
+  padding: 5%;
+  margin: 5% 0;
+  box-shadow: 10px 5px 5px #DEDEDE;
+  border-radius: 8px;
+  background-color: #d1e8fa;
+}
+
+.result progress{
+  width: 100%;
+  background-color: blue;
+  border-radius: 15px;
 }
