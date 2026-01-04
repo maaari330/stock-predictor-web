@@ -1,6 +1,7 @@
 import yfinance as yf
 import pandas as pd
 import pickle
+from pathlib import Path
 
 def model_predict(ticker:str,period='60d'):
     # データ取得
@@ -21,11 +22,14 @@ def model_predict(ticker:str,period='60d'):
     df=df.dropna(axis=0)
     x=df.loc[:,'Return':'MA_Ratio'].tail(1)
     print(x)
-    sc=pickle.load(open('scaler.pkl',mode='rb'))
+    BASE_DIR = Path(__file__).resolve().parent
+    scaler_path = BASE_DIR / "scaler.pkl"
+    sc=pickle.load(open(scaler_path,mode='rb'))
     sc_x=sc.transform(x)
 
     # モデルをロード
-    model2=pickle.load(open('model2.pkl',mode='rb'))
+    model_path = BASE_DIR / "model2.pkl"
+    model2=pickle.load(open(model_path,mode='rb'))
     Prediction=int(model2.predict(sc_x)[0])
     PredictionLabel='UP' if Prediction==1 else 'Down'
     Confidence=float(max(model2.predict_proba(sc_x)[0]))

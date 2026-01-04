@@ -29,7 +29,7 @@ class PredictionResponse(BaseModel):
 async def root():
     return {'message': 'Hello World'}
 
-@app.post('/predict',response_model=PredictionResponse)
+@app.post('predict/',response_model=PredictionResponse)
 async def predict(data:PredictionData):
     res=model_predict.model_predict(data.Ticker, period=f"{data.Days}d")
     return PredictionResponse(
