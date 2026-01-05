@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  background-color: #f5f5f5;
+  max-width: 400px;
+  padding: 2rem;
+  margin: auto;
+  border-radius: 30px;
+  box-shadow: 10px 5px 5px gray;
+}
+
+.forms label {
+  display: flex;
+  flex-flow: column;
+}
+
+.forms input {
+  border: solid 1.5px #DDDDDD;
+  border-radius: 5px;
+  padding: 0.1em;
+}
+
+.forms button {
+  padding: 0.7em;
+  margin-top: 1em;
+  border-radius: 5px;
+  border: 0px;
+  box-shadow: 0px 5px #808080;
+  background-color: #1e90ff;
+  color: white;
+}
+
+.forms button:hover {
+  background-color: #1fA3ff;
+}
+
+.forms button:active {
+  top: 5px;
+  position: relative;
+  background-color: #1fA3ff;
+  box-shadow: none;
+}
+
+.result {
+  padding: 5%;
+  margin: 5% 0;
+  box-shadow: 10px 5px 5px #DEDEDE;
+  border-radius: 8px;
+  background-color: #d1e8fa;
+}
+
+.result .res-letter {
+  margin-right: 3px;
+  color: #171717;
+}
+
+span.res-res {
+  font-weight: bold;
+}
+
+span.res-res svg {
+  display: inline;
+  margin-left: 5px;
+}
+
+.up {
+  color: green;
+}
+
+.down {
+  color: red;
+}
+
+.result progress {
+  width: 100%;
+  border-radius: 15px;
+  height: 20px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #003090;
+  border-radius: 15px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #CCCCCC;
+  border-radius: 15px;
+}
