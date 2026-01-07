@@ -11,7 +11,7 @@ export default function Home() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const res = await fetch('http://localhost:8000/predict', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ Ticker: Ticker, Days: Number(Days) }) })
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/predict/`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ticker: Ticker, days: parseInt(Days) }) })
     const resBody = await res.json()
     setPredictionLabel(resBody.PredictionLabel)
     setConfidence(resBody.Confidence)
@@ -25,11 +25,16 @@ export default function Home() {
       <form method="post" onSubmit={handleSubmit} className="forms">
         <label>
           銘柄コード/Ticker:
-          <input type="text" name="ticker" value={Ticker} onChange={e => setTicker(e.target.value)} />
+          <input type="text" required name="ticker" value={Ticker} onChange={e => setTicker(e.target.value)} />
         </label>
         <label>
           日数:
-          <input type="text" name="days" value={Days} onChange={e => setDays(e.target.value)} />
+          <input type="number" min={11} required name="days" value={Days}
+            onChange={e => {
+              const v = e.target.value
+              v == "" ? setDays("") : setDays(v)
+            }}
+          />
         </label>
         <button type="submit">株価予測</button>
       </form>
