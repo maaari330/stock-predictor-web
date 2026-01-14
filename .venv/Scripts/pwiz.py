@@ -1,4 +1,4 @@
-#!C:\Users\ai\wkspace\stock\.venv\Scripts\python.exe
+#!C:\Users\m_bbt\Projects\stock-predictor-web\.venv\Scripts\python.exe
 
 import datetime
 import os

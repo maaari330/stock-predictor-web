@@ -1,7 +1,7 @@
 import yfinance as yf
 import pandas as pd
 import pickle
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import TimeSeriesSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -31,38 +31,62 @@ def train_model(ticker:str,period='5y'):
     df=df.dropna(axis=0)
     x=df.loc[:,'Return':'MA_Ratio']
     t=df['Label']
-    sc=StandardScaler()
-    sc_x=sc.fit_transform(x)
+
+    print(df['Label'].value_counts()) # 関会データ内の0,1の個数偏りなし
+
+    best = {
+        "score": -1.0,
+        "model_name": None,
+        "model": None,
+        "scaler": None,
+    }
 
     # 学習・テストデータの分割
-    border_date=sc_x.tail(1).index - relativedelta(years=1)
-    if 
-    X_train,X_test,y_train,y_test=train_test_split(sc_x,t,test_size=0.1,random_state=0)
+    # X_train,X_test,y_train,y_test=train_test_split(sc_x,t,test_size=0.1,random_state=0)
+    tscv=TimeSeriesSplit(n_splits=5)
+    for train_index,test_index in tscv.split(x,t):
+        X_train=x.iloc[train_index]
+        X_test=x.iloc[test_index]
+        y_train=t.iloc[train_index]
+        y_test=t.iloc[test_index]
+        sc=StandardScaler()
+        sc_X_train=sc.fit_transform(X_train)
+        sc_X_test=sc.transform(X_test)
 
-    # モデル学習 ランダムフォレスト
-    model=RandomForestClassifier(n_estimators=200,random_state=0)
-    model.fit(X_train,y_train)
-    print('Random Forest Train score:',model.score(X_train,y_train))
-    print('Random Forest Test score:',model.score(X_test,y_test))
+        # モデル学習 ランダムフォレスト
+        rf = RandomForestClassifier(n_estimators=200, random_state=0)
+        rf.fit(sc_X_train, y_train)
+        rf_test_score = rf.score(sc_X_test, y_test)
 
-    # 調整
-    print(df['Label'].value_counts())
-    importance=pd.Series(model.feature_importances_, index=x.columns)
-    print(importance)
+        if rf_test_score > best["score"]:
+            best["score"] = rf_test_score
+            best["model_name"] = "RandomForest"
+            best["model"] = rf
+            best["scaler"] = sc
 
-    # 訓練データの過学習（バリアンス）を防ぐため、正則化項を追加：　ロジスティック回帰
-    model2=LogisticRegression(random_state=0,C=1)
-    model2.fit(X_train,y_train)
-    print('Logistic Regression Train score:',model2.score(X_train,y_train))
-    print('Logistic Regression Test score:',model2.score(X_test,y_test))
+        # 調整
+        print(df['Label'].value_counts())
+        importance=pd.Series(rf.feature_importances_, index=x.columns)
+        print(importance)
+
+        # 訓練データの過学習（バリアンス）を防ぐため、正則化項を追加：　ロジスティック回帰
+        lr = LogisticRegression(random_state=0, C=1, max_iter=1000)
+        lr.fit(sc_X_train, y_train)
+        lr_test_score = lr.score(sc_X_test, y_test)
+
+        if lr_test_score > best["score"]:
+            best["score"] = lr_test_score
+            best["model_name"] = "LogisticRegression"
+            best["model"] = lr
+            best["scaler"] = sc
+    
+    print("BEST:", best["model_name"], best["score"])
 
     # モデル保存
     with open('scaler.pkl',mode='wb') as f:
-        pickle.dump(sc,f)
+        pickle.dump(best["scaler"],f)
     with open('model.pkl',mode='wb') as f:
-        pickle.dump(model,f)
-    with open('model2.pkl',mode='wb') as f:
-        pickle.dump(model2,f)
+        pickle.dump(best["model"],f)
 
 if __name__=='__main__':
     ticker='NVDA'

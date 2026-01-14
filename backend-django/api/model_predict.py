@@ -28,11 +28,11 @@ def model_predict(ticker:str,period='60d'):
     sc_x=sc.transform(x)
 
     # モデルをロード
-    model_path = BASE_DIR / "model2.pkl"
-    model2=pickle.load(open(model_path,mode='rb'))
-    Prediction=int(model2.predict(sc_x)[0])
+    model_path = BASE_DIR / "model.pkl"
+    model=pickle.load(open(model_path,mode='rb'))
+    Prediction=int(model.predict(sc_x)[0])
     PredictionLabel='UP' if Prediction==1 else 'Down'
-    Confidence=float(max(model2.predict_proba(sc_x)[0]))
+    Confidence=float(max(model.predict_proba(sc_x)[0]))
 
     # 戻り値
     return {'Prediction':Prediction,'PredictionLabel':PredictionLabel,'Confidence':Confidence}

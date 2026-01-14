@@ -4,7 +4,7 @@
 
 ### Architecture
 -フロントエンド：Next.js  
--バックエンド：FastAPI  
+-バックエンド：Django / Django REST Framework 
 -機械学習：scikit-learn, pandas, yfinance  
 -言語：python
 
@@ -17,13 +17,17 @@
    git clone https://github.com/maaari330/stock-predictor-web/  
    cd stock-predictor-web  
 2. バックエンドのセットアップ  
-   pip install  "fastapi[all]" sklearn pandas yfinance  
+   cd backend-django
+   pip install -r requirements.txt
+   python manage.py migrate
 3. フロントエンドのセットアップ  
    cd stock-frontend  
    npm install  
    npm install react-icons --save　# React-icons  
 4. 起動  
-   uvicorn main:app --reload　# バックエンド（fastAPI）  
+   cd backend-django
+   python manage.py runserver　# バックエンド（Django） 
+   cd stock-frontend 
    npm run dev # フロント（別ターミナル）  
 
 ### Demo
