@@ -5,13 +5,14 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from dateutil.relativedelta import relativedelta
 
-def train_model(ticker:str,period='5y'):
-    # データ取得
-    df=yf.download(ticker, period=period, auto_adjust=True)
+def train_model(ticker:str,fx_num:str,period='5y'):
+    # データ取得・結合
+    stock_df=yf.download(ticker, period=period, auto_adjust=True)
+    fx_df=yf.download(fx_num,period=period,interval='1d')
+    df=pd.merge(stock_df,fx_df,left_index=True,right_index=True)
 
-    print(df.index)
+    print(df.columns)
 
     # 特徴量
     df['Return']=df['Close'].pct_change() # 前日からの変化率
@@ -19,7 +20,7 @@ def train_model(ticker:str,period='5y'):
     df['Volume_change']=df['Volume'].pct_change() # 株の注目度
     df['Roll_5']=df['Close'].rolling(window=5).mean() # 短期のトレンド
     df['Roll_10']=df['Close'].rolling(window=10).mean() # 長期のトレンド
-    df['MA_Ratio']=df['Roll_5']/df['Roll_10'] # 直近が上昇 or 下降傾向
+    df['MA_Ratio']=df['Roll_5']/df['Roll_10'] # 直近が上昇 or 下降傾向 = 短期のトレンド / 長期のトレンド
 
     # 目的変数
     df['Label']=(df['Close'].shift(-1)>df['Close']).astype(int)
@@ -90,4 +91,5 @@ def train_model(ticker:str,period='5y'):
 
 if __name__=='__main__':
     ticker='NVDA'
-    train_model(ticker)
+    fx_num='USDJPY=X'
+    train_model(ticker,fx_num)
