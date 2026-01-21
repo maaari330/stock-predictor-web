@@ -27,7 +27,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <header className="site-header">
+          株価予測サイト
+        </header>
+        <div className="container">
+          {children}
+        </div>
       </body>
     </html>
   );
