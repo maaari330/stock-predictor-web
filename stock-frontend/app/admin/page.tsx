@@ -7,9 +7,10 @@ export default function Management() {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const admin_api_url = `${process.env.NEXT_PUBLIC_HOST} /admin/`
+        const admin_api_url = `${process.env.NEXT_PUBLIC_HOST}/api/admin/train/`
         await fetch(admin_api_url, {
             method: 'POST',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ticker: Ticker, fx: TickerSymbol })
         })

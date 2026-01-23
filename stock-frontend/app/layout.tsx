@@ -24,11 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>株価予測サイト</title>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <header className="site-header">
-          株価予測サイト
+          トヨタ株予測サイト
         </header>
         <div className="container">
           {children}

@@ -22,6 +22,6 @@ from api import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("",views.home,name="home"),
-    path("admin/train",views.train,name="train"),
-    path("predict/",views.predict,name="predict"),
+    path("api/admin/train/",views.train,name="train"),
+    path("api/predict/",views.predict,name="predict"),
 ]
