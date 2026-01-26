@@ -24,4 +24,5 @@ urlpatterns = [
     path("",views.home,name="home"),
     path("api/admin/train/",views.train,name="train"),
     path("api/predict/",views.predict,name="predict"),
+    path("api/stock_series/",views.show_stock_chart,name="show_stock_chart"),
 ]

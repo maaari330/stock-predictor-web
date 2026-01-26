@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import dynamic from "next/dynamic"
 
 export default function Home() {
   const [Ticker, setTicker] = useState("")
@@ -9,6 +10,11 @@ export default function Home() {
   const [DownPercent, setDownPercent] = useState(0.0)
   const [Direction, setDirection] = useState("")
   const [Strength, setStrength] = useState(0.0)
+
+  const HeavyComponent = dynamic(() => import('../components/StockChart').then((mod) => mod.default), {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  });
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,9 +59,13 @@ export default function Home() {
 
 
       <div>
-        <p>翌営業日の株価 上昇確率：{UpPercent} 下落確率：{DownPercent}</p>
+        <p>翌営業日の株価 上昇確率：{UpPercent}% 下落確率：{DownPercent}%</p>
         <p>判定：{Direction}</p>
         <p>予測の強さ（しきい値との差。モデルの迷いの少なさ）：{Strength}%</p>
+      </div>
+
+      <div>
+        <HeavyComponent ticker="7203.T"></HeavyComponent>
       </div>
     </main>
   );

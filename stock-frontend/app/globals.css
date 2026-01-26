@@ -14,14 +14,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #f5f9ff;
     --foreground: #ededed;
+    --text: #0f172a;
+    --blue: #1e90ff;
+    --blue-hover: #1879db;
   }
+}
+
+.site-header {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -55,12 +62,4 @@ body {
   position: relative;
   background-color: #1fA3ff;
   box-shadow: none;
-}
-
-.result {
-  padding: 5%;
-  margin: 5% 0;
-  box-shadow: 10px 5px 5px #DEDEDE;
-  border-radius: 8px;
-  background-color: #d1e8fa;
 }
