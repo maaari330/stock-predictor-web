@@ -23,43 +23,98 @@
 }
 
 .site-header {
-  background: rgba(255, 255, 255, 0.9);
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 3px 3px;
+  text-align: start;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pageHeader {
+  margin-bottom: 12px;
+}
+
+.forms {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 .forms label {
-  display: flex;
-  flex-flow: column;
+  display: grid;
+  font-size: 0.9rem;
+}
+
+.dateRow {
+  gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+@media (max-width: 700px) {
+  .dateRow {
+    grid-template-columns: 1fr;
+  }
 }
 
 .forms input {
   border: solid 1.5px #DDDDDD;
   border-radius: 5px;
-  padding: 0.1em;
+  width: 100%;
+  height: 40px;
+  padding: 8px 10px;
 }
 
-.forms button {
-  padding: 0.7em;
-  margin-top: 1em;
-  border-radius: 5px;
-  border: 0px;
-  box-shadow: 0px 5px #808080;
-  background-color: #1e90ff;
-  color: white;
+.btn {
+  display: inline-block;
+  background-color: #2980b9;
+  color: #fff;
+  padding: 0.3rem 0.3rem;
+  margin: 0.5rem auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
-.forms button:hover {
-  background-color: #1fA3ff;
+.btn:hover {
+  background-color: #1abc9c;
 }
 
-.forms button:active {
-  top: 5px;
-  position: relative;
-  background-color: #1fA3ff;
-  box-shadow: none;
+.result {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+  line-height: 1.6;
 }

@@ -45,10 +45,13 @@ def model_predict(ticker:str,symbol:str,period='60d'):
     down_probability = float(probability[0])
     up_probability = float(probability[1])
     direction = "上昇予想" if up_probability >= threshold else "下落予想"
+    margin = abs(up_probability - threshold)
+    strength = margin * 100 / max(threshold, 1 - threshold)
 
     # 戻り値
     return {
         'UpPercent': round(up_probability * 100, 1),
         'DownPercent': round(down_probability * 100, 1),
         'Direction': direction,
+        'Strength':strength,
     }

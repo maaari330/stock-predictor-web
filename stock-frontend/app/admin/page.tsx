@@ -16,7 +16,7 @@ export default function Management() {
         })
     }
     return (
-        <main>
+        <main className="page">
             <div>
                 株価予測アプリ 管理画面
             </div>
@@ -29,7 +29,7 @@ export default function Management() {
                     ティッカーシンボル/Ticker Symbol:
                     <input type="text" required value={TickerSymbol} onChange={e => setTickerSymbol(e.target.value)} />
                 </label>
-                <button type="submit">株価予測モデル作成</button>
+                <button type="submit" className="btn">株価予測モデル作成</button>
             </form>
         </main>
     );

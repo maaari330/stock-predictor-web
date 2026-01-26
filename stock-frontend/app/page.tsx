@@ -3,8 +3,8 @@ import { useState } from "react";
 import dynamic from "next/dynamic"
 
 export default function Home() {
-  const [Ticker, setTicker] = useState("")
-  const [TickerSymbol, setTickerSymbol] = useState("")
+  const [Ticker, setTicker] = useState("7203.T")
+  const [TickerSymbol, setTickerSymbol] = useState("USDJPY=X")
   const [Days, setDays] = useState("")
   const [UpPercent, setUpPercent] = useState(0.0)
   const [DownPercent, setDownPercent] = useState(0.0)
@@ -32,41 +32,47 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <div>
-        株価予測実行
-      </div>
-      <form method="post" onSubmit={handleSubmit} className="forms">
-        <label>
-          銘柄コード/Ticker:
-          <input type="text" required value={Ticker} onChange={e => setTicker(e.target.value)} />
-        </label>
-        <label>
-          ティッカーシンボル/Ticker Symbol:
-          <input type="text" required value={TickerSymbol} onChange={e => setTickerSymbol(e.target.value)} />
-        </label>
-        <label>
-          日数:
-          <input type="number" min={11} required value={Days}
-            onChange={e => {
-              const v = e.target.value
-              v == "" ? setDays("") : setDays(v)
-            }}
-          />
-        </label>
-        <button type="submit">株価予測</button>
-      </form>
+    <main className="page">
+      <section className="card">
+        <h2 className="pageHeader">
+          株価予測実行
+        </h2>
+        <form method="post" onSubmit={handleSubmit} className="forms">
+          <label>
+            銘柄コード/Ticker:
+            <input type="text" required value={Ticker} onChange={e => setTicker(e.target.value)} />
+          </label>
+          <label>
+            ティッカーシンボル/Ticker Symbol:
+            <input type="text" required value={TickerSymbol} onChange={e => setTickerSymbol(e.target.value)} />
+          </label>
+          <label>
+            日数:
+            <input type="number" min={11} required value={Days}
+              onChange={e => {
+                const v = e.target.value
+                v == "" ? setDays("") : setDays(v)
+              }}
+            />
+          </label>
+          <button type="submit" className="btn">株価予測</button>
+        </form>
 
+        <div className="result">
+          <p>翌営業日の株価 上昇確率：{UpPercent}% 下落確率：{DownPercent}%</p>
+          <p>判定：{Direction}</p>
+          <p>予測の強さ（しきい値との差。モデルの迷いの少なさ）：{Strength}%</p>
+        </div>
+      </section>
 
-      <div>
-        <p>翌営業日の株価 上昇確率：{UpPercent}% 下落確率：{DownPercent}%</p>
-        <p>判定：{Direction}</p>
-        <p>予測の強さ（しきい値との差。モデルの迷いの少なさ）：{Strength}%</p>
-      </div>
-
-      <div>
-        <HeavyComponent ticker="7203.T"></HeavyComponent>
-      </div>
+      <section className="card">
+        <h2 className="pageHeader">
+          株価情報取得
+        </h2>
+        <div>
+          <HeavyComponent ticker="7203.T"></HeavyComponent>
+        </div>
+      </section>
     </main>
   );
 }

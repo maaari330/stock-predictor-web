@@ -24,7 +24,7 @@ export default function StockChart({ ticker }: { ticker: string }) {
 
     return (
         <div>
-            <form onSubmit={handleMetricsGet}>
+            <form onSubmit={handleMetricsGet} className="forms">
                 <select value={Metrics} onChange={e => setMetrics(e.target.value as Metric)}>
                     <option value="Close">Close</option>
                     <option value="Volatility">Volatility</option>
@@ -32,10 +32,13 @@ export default function StockChart({ ticker }: { ticker: string }) {
                 </select>
                 <label>
                     開始期間～終了期間
-                    <input type="date" value={Start} onChange={e => setStart(e.target.value)}></input>
-                    <input type="date" value={End} onChange={e => setEnd(e.target.value)}></input>
+                    <div className="dateRow">
+                        <input type="date" value={Start} required onChange={e => setStart(e.target.value)}></input>
+                        <span>~</span>
+                        <input type="date" value={End} required onChange={e => setEnd(e.target.value)}></input>
+                    </div>
                 </label>
-                <button type="submit">株価情報取得</button>
+                <button type="submit" className="btn">株価情報取得</button>
             </form>
             <Plot
                 data={[
