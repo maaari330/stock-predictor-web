@@ -5,7 +5,6 @@ import dynamic from "next/dynamic"
 export default function Home() {
   const [Ticker, setTicker] = useState("7203.T")
   const [TickerSymbol, setTickerSymbol] = useState("USDJPY=X")
-  const [Days, setDays] = useState("")
   const [UpPercent, setUpPercent] = useState(0.0)
   const [DownPercent, setDownPercent] = useState(0.0)
   const [Direction, setDirection] = useState("")
@@ -22,7 +21,7 @@ export default function Home() {
     const response = await fetch(main_api_url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ticker: Ticker, symbol: TickerSymbol, days: parseInt(Days) })
+      body: JSON.stringify({ ticker: Ticker, symbol: TickerSymbol })
     })
     const response_body = await response.json()
     setUpPercent(response_body.UpPercent)
@@ -45,15 +44,6 @@ export default function Home() {
           <label>
             ティッカーシンボル/Ticker Symbol:
             <input type="text" required value={TickerSymbol} onChange={e => setTickerSymbol(e.target.value)} />
-          </label>
-          <label>
-            日数:
-            <input type="number" min={11} required value={Days}
-              onChange={e => {
-                const v = e.target.value
-                v == "" ? setDays("") : setDays(v)
-              }}
-            />
           </label>
           <button type="submit" className="btn">株価予測</button>
         </form>

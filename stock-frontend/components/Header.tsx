@@ -6,7 +6,7 @@ export default function Header() {
     const pathname = usePathname();
 
     const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/")
-    const headerText = isAdmin ? "トヨタ株予測サイト 管理者用" : "トヨタ株予測サイト"
+    const headerText = isAdmin ? "あしたの株ラボ" : "あしたの株ラボ"
 
     return <header className="site-header">{headerText}</header>
 }

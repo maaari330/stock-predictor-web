@@ -3,8 +3,9 @@ import pandas as pd
 import pickle
 from pathlib import Path
 
-def model_predict(ticker:str,symbol:str,period='60d'):
+def model_predict(ticker:str,symbol:str):
     # データ取得
+    period='90d'
     stock_df=yf.download(ticker, period=period, auto_adjust=True)
     fx_df = yf.download(symbol, period=period, interval="1d")
     fx_df=fx_df.rename(columns=lambda s: 'Fx_'+s)
@@ -29,7 +30,7 @@ def model_predict(ticker:str,symbol:str,period='60d'):
 
     # モデル、特徴量の列名、しきい値をロード
     BASE_DIR = Path(__file__).resolve().parent
-    model = pickle.load(open(BASE_DIR / "model_randomforest.pkl", "rb"))
+    model = pickle.load(open(BASE_DIR / "model_logisticregression.pkl", "rb"))
     feature_cols = pickle.load(open(BASE_DIR / "feature_cols.pkl", "rb"))
     threshold = float(pickle.load(open(BASE_DIR / "threshold.pkl", "rb")))
 

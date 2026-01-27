@@ -15,7 +15,7 @@ def predict(request):
     ticker_serializer=TickerSerializers(data=request.data)
     if ticker_serializer.is_valid():
         validate_test_data=ticker_serializer.validated_data
-        test_response=model_predict(validate_test_data.get("ticker"),validate_test_data.get("symbol"),f"{validate_test_data.get("days")}d")
+        test_response=model_predict(validate_test_data.get("ticker"),validate_test_data.get("symbol"))
         return Response(test_response,status=status.HTTP_200_OK)
     return Response(ticker_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

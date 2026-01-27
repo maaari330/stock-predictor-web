@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "株価予測サイト",
-  description: "トヨタ株の予測サイト",
+  title: "あしたの株価ラボ",
+  description: "株価予測のモデル作成、作成したモデルを使用した翌営業日の株価上昇・下落確率を予測できるサイト",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
