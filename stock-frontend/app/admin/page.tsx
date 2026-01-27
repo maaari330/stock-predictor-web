@@ -17,9 +17,9 @@ export default function Management() {
     }
     return (
         <main className="page">
-            <div>
-                株価予測アプリ 管理画面
-            </div>
+            <h2 className="pageHeader">
+                株価予測モデル作成
+            </h2>
             <form method="post" onSubmit={handleSubmit} className="forms">
                 <label>
                     銘柄コード/Ticker:
@@ -29,7 +29,7 @@ export default function Management() {
                     ティッカーシンボル/Ticker Symbol:
                     <input type="text" required value={TickerSymbol} onChange={e => setTickerSymbol(e.target.value)} />
                 </label>
-                <button type="submit" className="btn">株価予測モデル作成</button>
+                <button type="submit" className="btn">モデル作成</button>
             </form>
         </main>
     );

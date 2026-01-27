@@ -53,5 +53,5 @@ def model_predict(ticker:str,symbol:str,period='60d'):
         'UpPercent': round(up_probability * 100, 1),
         'DownPercent': round(down_probability * 100, 1),
         'Direction': direction,
-        'Strength':strength,
+        'Strength':round(strength,1),
     }

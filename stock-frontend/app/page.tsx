@@ -59,9 +59,18 @@ export default function Home() {
         </form>
 
         <div className="result">
-          <p>翌営業日の株価 上昇確率：{UpPercent}% 下落確率：{DownPercent}%</p>
-          <p>判定：{Direction}</p>
-          <p>予測の強さ（しきい値との差。モデルの迷いの少なさ）：{Strength}%</p>
+          翌営業日の株価 予測結果
+          <div className="resultRow">
+            <dt>上昇確率：</dt> <dd>{UpPercent}%</dd>
+            <dt>下落確率：</dt> <dd>{DownPercent}%</dd>
+          </div>
+          <div className="resultRow">
+            <dt>判定：</dt> <dd>{Direction}</dd>
+          </div>
+          <div className="resultRow">
+            <dt>予測の強さ*：</dt> <dd>{Strength}%</dd>
+          </div>
+          <span className="note">*しきい値との差（モデルの迷いの少なさ）を表す。</span>
         </div>
       </section>
 
