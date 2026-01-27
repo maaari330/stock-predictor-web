@@ -34,5 +34,11 @@ def show_stock_chart(request):
     metric=request.query_params.get("metric")
     start=request.query_params.get("start")
     end=request.query_params.get("end")
+    competitor=request.query_params.get("competitor")
+    if competitor:
+        show_competitor_response= get_stock_chart(competitor,metric,start,end)
+    else:
+        show_competitor_response=None
     show_stock_response= get_stock_chart(ticker,metric,start,end)
-    return Response(show_stock_response,status=status.HTTP_200_OK)
+    response={"main":show_stock_response,"competitor":show_competitor_response}
+    return Response(response,status=status.HTTP_200_OK)

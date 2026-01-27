@@ -7,19 +7,41 @@ export default function StockChart({ ticker }: { ticker: string }) {
     const [Metrics, setMetrics] = useState<Metric>("Close")
     const [Start, setStart] = useState("")
     const [End, setEnd] = useState("")
-    const [MetricDates, setMetricDates] = useState([])
-    const [MetricValues, setMetricValues] = useState([])
+    const [Competitor, setCompetitor] = useState("7267.T")
+    const [MainDates, setMainDates] = useState([])
+    const [MainValues, setMainValues] = useState([])
+    const [CompetitorDates, setCompetitorDates] = useState([])
+    const [CompetitorValues, setCompetitorValues] = useState([])
 
     async function handleMetricsGet(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const metrics_api_url = `${process.env.NEXT_PUBLIC_HOST}/api/stock_series/?ticker=${ticker}&metric=${Metrics}&start=${Start}&end=${End}`
+        const metrics_api_url = `${process.env.NEXT_PUBLIC_HOST}/api/stock_series/?ticker=${ticker}&metric=${Metrics}&start=${Start}&end=${End}&competitor=${Competitor}`
         const response = await fetch(metrics_api_url, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         })
         const response_body = await response.json()
-        setMetricDates(response_body.dates)
-        setMetricValues(response_body.values)
+        const response_competitor = response_body["competitor"]
+        setMainDates(response_body["main"].dates)
+        setMainValues(response_body["main"].values)
+        if (response_competitor) {
+            setCompetitorDates(response_competitor.dates)
+            setCompetitorValues(response_competitor.values)
+        }
+        else {
+            setCompetitorDates([])
+            setCompetitorValues([])
+        }
+    }
+
+    const traces: any[] = [{
+        x: MainDates, y: MainValues, type: 'scatter', mode: 'lines+markers', name: ticker, marker: { color: 'red' },
+    }]
+
+    if (CompetitorDates.length > 0) {
+        traces.push({
+            x: CompetitorDates, y: CompetitorValues, type: 'scatter', mode: 'lines+markers', name: Competitor, marker: { color: 'green' },
+        })
     }
 
     return (
@@ -38,19 +60,14 @@ export default function StockChart({ ticker }: { ticker: string }) {
                         <input type="date" value={End} required onChange={e => setEnd(e.target.value)}></input>
                     </div>
                 </label>
+                <label>
+                    他社比較:
+                    <input type="text" value={Competitor} onChange={e => setCompetitor(e.target.value)} />
+                </label>
                 <button type="submit" className="btn">株価情報取得</button>
             </form>
             <Plot
-                data={[
-                    {
-                        x: MetricDates,
-                        y: MetricValues,
-                        type: 'scatter',
-                        mode: 'lines+markers',
-                        marker: { color: 'red' },
-
-                    },
-                ]}
+                data={traces}
                 layout={{ title: { text: ticker + "-" + Metrics }, xaxis: { tickangle: 90 }, }}
                 style={{ width: "100%", height: "400px" }}
                 useResizeHandler={true}
