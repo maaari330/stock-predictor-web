@@ -2,9 +2,10 @@
 import Plot from "react-plotly.js"
 import { useState } from "react";
 
-export default function StockChart({ ticker }: { ticker: string }) {
+export default function StockChart() {
     type Metric = "Close" | "Volatility" | "MA_Ratio"
     const [Metrics, setMetrics] = useState<Metric>("Close")
+    const [ChartTicker, setChartTicker] = useState("")
     const [Start, setStart] = useState("")
     const [End, setEnd] = useState("")
     const [Competitor, setCompetitor] = useState("7267.T")
@@ -15,7 +16,7 @@ export default function StockChart({ ticker }: { ticker: string }) {
 
     async function handleMetricsGet(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const metrics_api_url = `${process.env.NEXT_PUBLIC_HOST}/api/stock_series/?ticker=${ticker}&metric=${Metrics}&start=${Start}&end=${End}&competitor=${Competitor}`
+        const metrics_api_url = `${process.env.NEXT_PUBLIC_HOST}/api/stock_series/?ticker=${ChartTicker}&metric=${Metrics}&start=${Start}&end=${End}&competitor=${Competitor}`
         const response = await fetch(metrics_api_url, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -35,7 +36,7 @@ export default function StockChart({ ticker }: { ticker: string }) {
     }
 
     const traces: any[] = [{
-        x: MainDates, y: MainValues, type: 'scatter', mode: 'lines+markers', name: ticker, marker: { color: 'red' },
+        x: MainDates, y: MainValues, type: 'scatter', mode: 'lines+markers', name: ChartTicker, marker: { color: 'red' },
     }]
 
     if (CompetitorDates.length > 0) {
@@ -53,6 +54,10 @@ export default function StockChart({ ticker }: { ticker: string }) {
                     <option value="MA_Ratio">MA_Ratio</option>
                 </select>
                 <label>
+                    銘柄コード/Ticker:
+                    <input type="text" required value={ChartTicker} onChange={e => setChartTicker(e.target.value)} />
+                </label>
+                <label>
                     開始期間～終了期間
                     <div className="dateRow">
                         <input type="date" value={Start} required onChange={e => setStart(e.target.value)}></input>
@@ -68,7 +73,7 @@ export default function StockChart({ ticker }: { ticker: string }) {
             </form>
             <Plot
                 data={traces}
-                layout={{ title: { text: ticker + "-" + Metrics }, xaxis: { tickangle: 90 }, }}
+                layout={{ title: { text: ChartTicker + "-" + Metrics }, xaxis: { tickangle: 90 }, }}
                 style={{ width: "100%", height: "400px" }}
                 useResizeHandler={true}
             />

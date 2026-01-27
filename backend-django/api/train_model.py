@@ -7,6 +7,7 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
+from .models import TrainedModel
 
 def train_model(ticker='7203.T',fx='USDJPY=X',period='10y'):
     # データ取得・結合
@@ -101,14 +102,12 @@ def train_model(ticker='7203.T',fx='USDJPY=X',period='10y'):
 
     model=lr.fit(x_scaled,t)
 
-    # モデル保存
-    BASE_DIR = Path(__file__).resolve().parent
-    with open(BASE_DIR /"model_logisticregression.pkl",mode='wb') as f:
-        pickle.dump(model,f)
-    with open(BASE_DIR /"threshold.pkl", "wb") as f:
-        pickle.dump(best_threshold, f)
-    with open(BASE_DIR /"feature_cols.pkl", "wb") as f:
-        pickle.dump(list(x.columns), f)
+    # モデルをDBへ保存
+    model_bytes = pickle.dumps(model)
+    threshold_value = float(best_threshold)
+    feature_cols_list = list(x.columns)
+    object = TrainedModel(ticker=ticker,fx=fx, model_data=model_bytes, threshold=threshold_value,feature_cols=feature_cols_list,)
+    object.save()
 
     # （参考情報）重要な特徴量の洗い出し
     # importance=pd.Series(model.feature_importances_, index=x.columns).abs().sort_values(ascending=False)

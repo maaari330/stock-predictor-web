@@ -1,9 +1,10 @@
 import yfinance as yf
 import pandas as pd
 import pickle
-from pathlib import Path
+from django.shortcuts import get_object_or_404
+from .models import TrainedModel
 
-def model_predict(ticker:str,symbol:str):
+def model_predict(ticker:str,symbol:str,model_id:int):
     # データ取得
     period='90d'
     stock_df=yf.download(ticker, period=period, auto_adjust=True)
@@ -28,11 +29,14 @@ def model_predict(ticker:str,symbol:str):
     df['Fx_MA_Ratio']=df['Fx_Roll_5']/df['Fx_Roll_10'] # 直近の為替が上昇 or 下降傾向 = 短期のトレンド / 長期のトレンド
     df['Fx_Return_lag1d']=df['Fx_Return'].shift(periods=1)  # 前々日 → 前日 間の為替変化率
 
-    # モデル、特徴量の列名、しきい値をロード
-    BASE_DIR = Path(__file__).resolve().parent
-    model = pickle.load(open(BASE_DIR / "model_logisticregression.pkl", "rb"))
-    feature_cols = pickle.load(open(BASE_DIR / "feature_cols.pkl", "rb"))
-    threshold = float(pickle.load(open(BASE_DIR / "threshold.pkl", "rb")))
+    # モデル、特徴量の列名、しきい値をロード 
+    if model_id: 
+        trained = get_object_or_404(TrainedModel,id=model_id) 
+    else:
+        trained = TrainedModel.objects.order_by("-trained_at").first() # モデルは指定がなければ最新を取得
+    model = pickle.loads(trained.model_data)
+    feature_cols = trained.feature_cols
+    threshold = trained.threshold
 
     # データ前処理
     df=df.dropna(axis=0)

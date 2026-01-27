@@ -145,3 +145,25 @@ body {
   color: #64748b;
   font-weight: 400;
 }
+
+.tbl {
+  table-layout: auto;
+  width: 100%;
+  margin: 10px auto;
+  border-collapse: collapse;
+}
+
+.tbl th,
+.tbl td {
+  padding: 0.2rem;
+  border: 1px solid #e6e6e6;
+}
+
+.tbl thead th {
+  background-color: #eef2f7;
+  color: #64748b;
+}
+
+.tbl tbody tr:nth-child(even) {
+  background-color: #f7f9fc;
+}
